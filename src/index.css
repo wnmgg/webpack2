@@ -1,4 +1,13 @@
 @import "./a.css";
 body{
 	background: gray;
+
+}
+
+.test_block{
+    transform: rotate(45deg);
+    margin:300px;
+    color: #fff000;
+    width: 200px;height: 50px;
+    background: red;
 }
