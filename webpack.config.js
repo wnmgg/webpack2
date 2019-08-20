@@ -9,7 +9,7 @@ module.exports = {
         contentBase:'./build',  //启动文件的路径
         compress:true,      //是否优化
     },
-    mode:'production', //模式 development 开发    production 生产
+    mode:'development', //模式 development 开发    production 生产
     entry:'./src/index.js', //入口
     output:{
         filename:'bundle.js',   //打包后的文件名
@@ -25,6 +25,39 @@ module.exports = {
             },
             hash:true,      //加上hash戳,作用及时清除缓存
         })
-
-    ]
+    ],
+    module:{    //模块
+        rules:[ //规则
+            //css-loader
+            //style-loader 把css插入到head标签里
+            //loader 顺序 默认是从右向左执行
+            //loader可以写成数组，对象
+            {
+                test:/\.css$/,
+                use:[
+                    {
+                        loader:'style-loader',
+                        options:{
+                            insert:'top', //把<style>标签插到前面
+                        }
+                    },
+                    'css-loader'
+                ]
+            },
+            //less-loader
+            {
+                test:/\.less$/,
+                use:[
+                    {
+                        loader:'style-loader',
+                        options:{
+                            insert:'top', //把<style>标签插到前面
+                        }
+                    },
+                    'css-loader',
+                    'less-loader',  //把less---css
+                ]
+            }
+        ]
+    }
 }
