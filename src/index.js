@@ -1,6 +1,18 @@
-
-// let str = require('./a.js');
-// console.log(str);
+let str = require('./a.js');
+console.log(str);
 
 require('./index.css');
 require('./index.less');
+
+let fn = () => {
+    console.log(1);
+}
+
+fn();
+
+class A{
+    a = 16;
+}
+
+let ta = new A();
+console.log(ta.a);

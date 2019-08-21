@@ -22,7 +22,7 @@ module.exports = {
         contentBase:'./build',  //启动文件的路径
         compress:true,      //是否优化
     },
-    mode:'production', //模式 development 开发    production 生产
+    mode:'development', //模式 development 开发    production 生产
     entry:'./src/index.js', //入口
     output:{
         filename:'bundle.js',   //打包后的文件名
@@ -44,6 +44,33 @@ module.exports = {
     ],
     module:{    //模块
         rules:[ //规则
+            /*{   //eslint 代码检测
+                test:/\.js$/,
+                use:{
+                    loader:'eslint-loader',
+                    options:{
+                        enforce:'pre',  //强制，在之前执行。previous(之前)  post(之后)
+                    }
+                }
+            },*/
+            {
+                test:/\.js$/,
+                use:{
+                    loader:'babel-loader',
+                    options:{   //用babel-loader 需要把es6-es5
+                        presets:[
+                            '@babel/preset-env'
+                        ],
+                        plugins:[
+                            ["@babel/plugin-proposal-decorators", { "legacy": true }],
+                            ["@babel/plugin-proposal-class-properties", { "loose" : true }],
+                            "@babel/plugin-transform-runtime"
+                        ]
+                    }
+                },
+                include:path.resolve(__dirname,'src'),
+                exclude:/node_modules/
+            },
             //css-loader
             //style-loader 把css插入到head标签里
             //loader 顺序 默认是从右向左执行
