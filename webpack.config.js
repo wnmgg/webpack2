@@ -4,7 +4,8 @@ let HtmlWebpackPlugin = require("html-webpack-plugin"); //html模板
 let MiniCssExtractPlugin = require('mini-css-extract-plugin'); //抽离<style>，形成link形式
 let OptimizeCss = require('optimize-css-assets-webpack-plugin');    //压缩css
 let UglifyJsPlugin = require('uglifyjs-webpack-plugin');    //用OptimizeCss优化css，就必须用UglifyJsPlugin优化js
-//console.log(path.resolve('dist'));
+let Webpack = require('webpack');
+
 module.exports = {
     optimization:{  //优化项
         minimizer:[
@@ -40,10 +41,20 @@ module.exports = {
         }),
         new MiniCssExtractPlugin({
             filename:'main.css'
+        }),
+        new Webpack.ProvidePlugin({
+            $:'jquery'
         })
     ],
+    externals:{
+        jquery:"$"
+    },
     module:{    //模块
         rules:[ //规则
+            /*{
+                test:require.resolve('jquery'),
+                use:'expose-loader?$'
+            },*/
             /*{   //eslint 代码检测
                 test:/\.js$/,
                 use:{
