@@ -28,6 +28,7 @@ module.exports = {
     output:{
         filename:'bundle.js',   //打包后的文件名
         path:path.resolve(__dirname,'build'),    //路径必须是绝对路径，path.resolve可以把相对路径解析成绝对路径
+        //publicPath:'http://wq.com'      //给所以资源加个前缀路径,如果想给图片单独加 ，就放在图片配置里
     },
     plugins:[   //数组类型
         new HtmlWebpackPlugin({
@@ -35,12 +36,12 @@ module.exports = {
             filename:'index.html',      //生成的html文件名
             minify:{    //压缩html
                 removeAttributeQuotes:true,     //去掉双引号
-                collapseWhitespace:true,        //压缩成一行
+                //collapseWhitespace:true,        //压缩成一行
             },
             hash:true,      //加上hash戳,作用及时清除缓存
         }),
         new MiniCssExtractPlugin({
-            filename:'main.css'
+            filename:'css/main.css'
         }),
         new Webpack.ProvidePlugin({
             $:'jquery'
@@ -64,6 +65,24 @@ module.exports = {
                     }
                 }
             },*/
+            {
+                test:/\.html$/,
+                use:'html-withimg-loader'
+            },
+            {
+                test:/\.(png|jpg|gif)$/,
+                //做一个限制 当我们的图片 小于多少k的时候 用base64来转化
+                //否则用file-loader产生真实的图片
+                //file-loader，url-loader是file-loader升级版
+                use:{
+                    loader:'url-loader',
+                    options:{
+                        limit:1,
+                        outputPath:'/img/',  //打包后文件 放在bulid/img 下
+                        //publicPath:'http://err.com',    //给图片路径前面加个前缀
+                    }
+                }
+            },
             {
                 test:/\.js$/,
                 use:{
